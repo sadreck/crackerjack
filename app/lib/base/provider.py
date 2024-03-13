@@ -159,5 +159,10 @@ class Provider:
             self.settings().save('detected_devices', json.dumps(devices))
         else:
             saved_devices = self.settings().get('detected_devices')
-            devices = {} if saved_devices is None else json.loads(saved_devices)
+            if saved_devices is None:
+                # Maybe we're here after an update, refresh the db.
+                devices = self.hashcat().get_detected_devices()
+                self.settings().save('detected_devices', json.dumps(devices))
+            else:
+                devices = json.loads(saved_devices)
         return DeviceProfileManager(devices)

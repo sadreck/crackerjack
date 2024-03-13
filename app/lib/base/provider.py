@@ -23,6 +23,7 @@ from app.lib.base.password_complexity import PasswordComplexityManager
 from app.lib.modules.office.manager import ModuleOfficeManager
 from app.lib.modules.keepass.manager import ModuleKeePassManager
 from flask_login import current_user
+import json
 
 
 class Provider:
@@ -152,6 +153,11 @@ class Provider:
     def module_keepass(self):
         return ModuleKeePassManager()
 
-    def device_profiles(self):
-        hashcat = self.hashcat()
-        return DeviceProfileManager(hashcat.get_detected_devices())
+    def device_profiles(self, reload=False):
+        if reload:
+            devices = self.hashcat().get_detected_devices()
+            self.settings().save('detected_devices', json.dumps(devices))
+        else:
+            saved_devices = self.settings().get('detected_devices')
+            devices = {} if saved_devices is None else json.loads(saved_devices)
+        return DeviceProfileManager(devices)

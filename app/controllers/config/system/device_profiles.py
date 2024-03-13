@@ -10,7 +10,7 @@ from app.lib.base.decorators import admin_required
 @admin_required
 def device_profiles():
     provider = Provider()
-    device_profile_manager = provider.device_profiles()
+    device_profile_manager = provider.device_profiles(reload=True)
 
     return render_template(
         'config/system/device_profiles/index.html',
@@ -24,7 +24,7 @@ def device_profiles():
 @admin_required
 def device_profile_edit(id):
     provider = Provider()
-    device_profile_manager = provider.device_profiles()
+    device_profile_manager = provider.device_profiles(reload=True)
 
     return render_template(
         'config/system/device_profiles/edit.html',
@@ -38,7 +38,7 @@ def device_profile_edit(id):
 @admin_required
 def device_profile_save(id):
     provider = Provider()
-    device_profile_manager = provider.device_profiles()
+    device_profile_manager = provider.device_profiles(reload=True)
 
     name = request.form['name'].strip() if 'name' in request.form else ''
     enabled = True if 'enabled' in request.form else False
@@ -70,7 +70,7 @@ def device_profile_save(id):
 @admin_required
 def device_profile_delete(id):
     provider = Provider()
-    device_profile_manager = provider.device_profiles()
+    device_profile_manager = provider.device_profiles(reload=True)
 
     device_profile_manager.delete(id)
     flash('Device profile deleted', 'success')

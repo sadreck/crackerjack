@@ -1,6 +1,3 @@
-> [!CAUTION]
-> This repo is unmaintained, visit https://github.com/sadreck/crackerjack for the latest version.
-
 # CrackerJack
 
 Web Interface for Hashcat by [Context Information Security](https://www.contextis.com/en/)
